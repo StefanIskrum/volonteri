@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infografika: Unapređenje Kapaciteta Crvenog krsta Republike Srpske</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F1F5F9;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            flex: 1;
+            padding: 0 1rem;
+        }
+        .flow-step:not(:last-child)::after {
+            content: '→';
+            position: absolute;
+            right: -1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1.5rem;
+            color: #6FB1FC;
+        }
+        .kpi-card {
+            background-color: #4364F7;
+            color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .kpi-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .swot-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+        @media (min-width: 768px) {
+            .swot-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        .llm-card {
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .llm-loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 50px;
+            color: #4364F7;
+            font-size: 1.2rem;
+        }
+        .llm-loading::after {
+            content: '';
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #4364F7;
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin-left: 0.5rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800">
+    <div class="container mx-auto p-4 md:p-8">
+
+        <header class="text-center mb-12">
+            <h1 class="text-3xl md:text-5xl font-bold text-slate-900 mb-2">Analiza Potreba za Bazom Podataka Volontera</h1>
+            <p class="text-lg text-slate-600">Strateško unapređenje operativnih kapaciteta Crvenog krsta Republike Srpske</p>
+        </header>
+
+        <main class="space-y-12">
+
+            <section id="challenges">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Trenutno Stanje: Ključni Izazovi u Upravljanju</h2>
+                    <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
+                        Analiza postojećih procesa otkriva značajne prepreke koje umanjuju efikasnost i brzinu reakcije. Fragmentirani podaci i manuelni procesi predstavljaju usko grlo, posebno u kriznim situacijama gdje je svaka sekunda bitna. Sljedeći podaci ilustruju dubinu ovih izazova.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="kpi-card bg-red-500">
+                            <div class="text-5xl font-bold">15+</div>
+                            <div class="mt-2 text-lg">sati sedmično izgubljeno na administraciju po kancelariji</div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="fragmentationChart"></canvas>
+                        </div>
+                        <div class="md:col-span-2">
+                            <div class="bg-white rounded-lg p-6">
+                                <h3 class="font-bold text-xl mb-4 text-center">Neefikasan Proces Mobilizacije u Krizi (Sadašnji Model)</h3>
+                                <p class="text-center text-slate-600 mb-6">Trenutni proces mobilizacije je linearan, spor i podložan greškama zbog nedostatka centralizovanih informacija.</p>
+                                <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm">
+                                    <div class="flow-step"><div class="p-4 bg-red-100 rounded-lg shadow-sm">1. Telefonski Pozivi i Provjere</div></div>
+                                    <div class="flow-step"><div class="p-4 bg-red-100 rounded-lg shadow-sm">2. Ručno Pretraživanje Vještina</div></div>
+                                    <div class="flow-step"><div class="p-4 bg-red-100 rounded-lg shadow-sm">3. Poteškoće u Koordinaciji</div></div>
+                                    <div class="flow-step"><div class="p-4 bg-red-100 rounded-lg shadow-sm">4. Spora Mobilizacija Timova</div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="solution">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Predloženo Rješenje: Centralizovana Digitalna Platforma</h2>
+                     <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
+                        Uspostavljanje jedinstvene digitalne baze podataka je strateški imperativ. Platforma će objediniti sve podatke o volonterima, omogućiti napredno pretraživanje i automatizovati ključne procese, transformišući način na koji organizacija funkcioniše.
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+                        <div class="chart-container">
+                            <canvas id="skillsChart"></canvas>
+                        </div>
+                        <div>
+                             <h3 class="font-bold text-xl mb-4">Ključne Funkcionalnosti Sistema</h3>
+                             <ul class="space-y-3 text-slate-700">
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">👤</span> Jedinstveni Profili Volontera</li>
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">🛠️</span> Evidencija Specifičnih Vještina</li>
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">🎓</span> Praćenje Obuka i Certifikata</li>
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">🗓️</span> Evidencija Angažmana i Aktivnosti</li>
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">💬</span> Alati za Efikasnu Komunikaciju</li>
+                                <li class="flex items-center"><span class="text-blue-500 mr-3 text-2xl">📊</span> Analitika i Automatsko Izvještavanje</li>
+                             </ul>
+
+                             <div class="llm-card mt-8">
+                                <h3 class="font-bold text-xl mb-4 text-slate-900">✨ Proširenje Vještina Volontera ✨</h3>
+                                <p class="text-slate-600 mb-4 text-sm">Unesite ključnu vještinu volontera da dobijete ideje za srodne vještine ili uloge u humanitarnom radu.</p>
+                                <input type="text" id="skillInput" placeholder="Npr. Prva pomoć" class="w-full p-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 mb-4 text-slate-700">
+                                <button id="generateSkillSuggestions" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">Generiši Prijedloge</button>
+                                <div id="skillSuggestionsOutput" class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md text-blue-800 min-h-[50px]"></div>
+                                <div id="skillLoading" class="llm-loading hidden">Učitavanje...</div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <section id="benefits">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">Očekivani Benefiti: Mjerljiv Napredak i Povećana Efikasnost</h2>
+                    <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
+                        Implementacija baze podataka donosi direktne i mjerljive koristi. Očekujemo drastično skraćenje vremena reakcije, bolju alokaciju ljudskih resursa i značajno smanjenje administrativnog opterećenja, što oslobađa vrijeme za misiju.
+                    </p>
+                    <div class="grid grid-cols-1 md:agrid-cols-2 lg:grid-cols-3 gap-8">
+                        <div class="kpi-card">
+                            <div class="text-5xl font-bold">&gt;75%</div>
+                            <div class="mt-2 text-lg">brža mobilizacija volontera u krizama</div>
+                        </div>
+                        <div class="kpi-card">
+                            <div class="text-5xl font-bold">&gt;90%</div>
+                            <div class="mt-2 text-lg">preciznost u raspoređivanju po vještinama</div>
+                        </div>
+                        <div class="kpi-card lg:col-span-1">
+                            <div class="text-5xl font-bold">&gt;50%</div>
+                            <div class="mt-2 text-lg">smanjenje administrativnog opterećenja</div>
+                        </div>
+
+                        <div class="md:col-span-2 lg:col-span-3 chart-container mx-auto">
+                            <canvas id="responseTimeChart"></canvas>
+                        </div>
+
+                        <div class="lg:col-span-3 llm-card">
+                            <h3 class="font-bold text-xl mb-4 text-slate-900">✨ Ideje za Angažman Volontera ✨</h3>
+                            <p class="text-slate-600 mb-4 text-sm">Generišite brze savjete za poboljšanje angažmana volontera.</p>
+                            <button id="generateEngagementTips" class="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition duration-300">Generiši Savjete</button>
+                            <div id="engagementTipsOutput" class="mt-4 p-3 bg-green-50 border border-green-200 rounded-md text-green-800 min-h-[50px]"></div>
+                            <div id="engagementLoading" class="llm-loading hidden">Učitavanje...</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+             <section id="swot">
+                <div class="bg-white rounded-lg shadow-md p-6 md:p-8">
+                    <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">SWOT Analiza Projekta</h2>
+                    <p class="text-center text-slate-600 mb-8 max-w-3xl mx-auto">
+                        Strateški pregled unutrašnjih i vanjskih faktora koji mogu uticati na uspjeh implementacije baze podataka. Razumijevanje ovih elemenata ključno je za planiranje i upravljanje rizicima.
+                    </p>
+                    <div class="swot-grid">
+                        <div class="p-6 bg-green-100 rounded-lg">
+                            <h3 class="font-bold text-xl text-green-800 mb-2">Snage (Strengths)</h3>
+                            <ul class="list-disc list-inside text-green-700 space-y-1">
+                                <li>Postojeća velika mreža volontera</li>
+                                <li>Prepoznatljivost i povjerenje u organizaciju</li>
+                                <li>Iskustvo u radu na terenu</li>
+                                <li>Jaka motivacija volontera</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-red-100 rounded-lg">
+                            <h3 class="font-bold text-xl text-red-800 mb-2">Slabosti (Weaknesses)</h3>
+                            <ul class="list-disc list-inside text-red-700 space-y-1">
+                                <li>Nedostatak centralizovanih podataka</li>
+                                <li>Ovisnost o manuelnim procesima</li>
+                                <li>Neujednačen nivo digitalne pismenosti</li>
+                                <li>Ograničeni finansijski resursi za IT</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-blue-100 rounded-lg">
+                            <h3 class="font-bold text-xl text-blue-800 mb-2">Prilike (Opportunities)</h3>
+                            <ul class="list-disc list-inside text-blue-700 space-y-1">
+                                <li>Digitalna transformacija javnog sektora</li>
+                                <li>Dostupnost modernih softverskih rješenja</li>
+                                <li>Mogućnost apliciranja za projektna sredstva</li>
+                                <li>Povećanje efikasnosti privlači nove volontere</li>
+                            </ul>
+                        </div>
+                        <div class="p-6 bg-yellow-100 rounded-lg">
+                            <h3 class="font-bold text-xl text-yellow-800 mb-2">Prijetnje (Threats)</h3>
+                            <ul class="list-disc list-inside text-yellow-700 space-y-1">
+                                <li>Otpor prema promjenama unutar strukture</li>
+                                <li>Pitanja sigurnosti i zaštite podataka (GDPR)</li>
+                                <li>Održivost sistema nakon implementacije</li>
+                                <li>Tehnički izazovi i održavanje</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="text-center mt-12 pt-8 border-t border-slate-300">
+            <p class="text-slate-600">&copy; 2025 Crveni krst Republike Srpske. Infografika kreirana za svrhe strateškog planiranja.</p>
+        </footer>
+    </div>
+    
+    <script>
+        const colorPalette = {
+            primary: '#4364F7',
+            secondary: '#6FB1FC',
+            danger: '#EF4444',
+            warning: '#FBBF24',
+            success: '#10B981',
+            text: '#1E293B'
+        };
+
+        const tooltipTitleCallback = (tooltipItems) => {
+            const item = tooltipItems[0];
+            let label = item.chart.data.labels[item.dataIndex];
+            if (Array.isArray(label)) {
+              return label.join(' ');
+            }
+            return label;
+        };
+
+        const wrapLabel = (label) => {
+            const maxLen = 16;
+            if (label.length <= maxLen) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            for (const word of words) {
+                if ((currentLine + ' ' + word).length > maxLen && currentLine.length > 0) {
+                    lines.push(currentLine);
+                    currentLine = word;
+                } else {
+                    currentLine = currentLine ? currentLine + ' ' + word : word;
+                }
+            }
+            lines.push(currentLine);
+            return lines;
+        };
+        
+        const sharedChartOptions = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                    labels: {
+                        color: colorPalette.text,
+                        font: { size: 12 }
+                    }
+                },
+                tooltip: {
+                    callbacks: {
+                        title: tooltipTitleCallback
+                    }
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: { color: colorPalette.text },
+                    grid: { color: '#E2E8F0' }
+                },
+                x: {
+                    ticks: { color: colorPalette.text },
+                    grid: { display: false }
+                }
+            }
+        };
+
+        const fragmentationData = {
+            labels: ['Papirne arhive', 'Excel tabele', 'Lokalne evidencije', 'Usmena predaja'].map(wrapLabel),
+            datasets: [{
+                label: 'Izvori podataka o volonterima',
+                data: [45, 35, 15, 5],
+                backgroundColor: [colorPalette.danger, colorPalette.warning, colorPalette.secondary, '#94A3B8'],
+                borderColor: '#FFFFFF',
+                borderWidth: 2
+            }]
+        };
+        new Chart(document.getElementById('fragmentationChart'), {
+            type: 'bar',
+            data: fragmentationData,
+            options: { ...sharedChartOptions, indexAxis: 'y' }
+        });
+
+        const skillsData = {
+            labels: ['Prva pomoć', 'Logistika', 'Psihosocijalna podrška', 'Spašavanje na vodi', 'IT & Komunikacije'].map(wrapLabel),
+            datasets: [{
+                label: 'Primjer strukture vještina',
+                data: [40, 25, 15, 10, 10],
+                backgroundColor: [colorPalette.primary, colorPalette.secondary, colorPalette.success, colorPalette.warning, '#94A3B8'],
+                hoverOffset: 4
+            }]
+        };
+        new Chart(document.getElementById('skillsChart'), {
+            type: 'doughnut',
+            data: skillsData,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                 plugins: {
+                    legend: { position: 'bottom', labels: { color: colorPalette.text } },
+                    tooltip: { callbacks: { title: tooltipTitleCallback } }
+                }
+            }
+        });
+
+        const responseData = {
+            labels: ['2023 (Prije)', '2024 (Prije)', '2025 (Plan)', '2026 (Projekcija)'].map(wrapLabel),
+            datasets: [{
+                label: 'Prosječno vrijeme mobilizacije (sati)',
+                data: [8, 7.5, 2, 1.5],
+                fill: true,
+                borderColor: colorPalette.primary,
+                backgroundColor: 'rgba(67, 100, 247, 0.2)',
+                tension: 0.3
+            }]
+        };
+        new Chart(document.getElementById('responseTimeChart'), {
+            type: 'line',
+            data: responseData,
+            options: sharedChartOptions
+        });
+
+        const generateGeminiContent = async (prompt, outputElement, loadingElement) => {
+            outputElement.innerHTML = '';
+            loadingElement.classList.remove('hidden');
+            try {
+                let chatHistory = [];
+                chatHistory.push({ role: "user", parts: [{ text: prompt }] });
+                const payload = { contents: chatHistory };
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+                const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        });
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0 &&
+                    result.candidates[0].content && result.candidates[0].content.parts &&
+                    result.candidates[0].content.parts.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text;
+                    outputElement.innerHTML = text.replace(/\n/g, '<br>');
+                } else {
+                    outputElement.innerHTML = 'Nije moguće generisati odgovor. Pokušajte ponovo.';
+                }
+            } catch (error) {
+                console.error('Greška pri pozivanju Gemini API-ja:', error);
+                outputElement.innerHTML = 'Došlo je do greške. Provjerite konzolu za detalje.';
+            } finally {
+                loadingElement.classList.add('hidden');
+            }
+        };
+
+        document.getElementById('generateSkillSuggestions').addEventListener('click', () => {
+            const skill = document.getElementById('skillInput').value;
+            if (skill.trim() === '') {
+                document.getElementById('skillSuggestionsOutput').innerHTML = 'Molimo unesite vještinu.';
+                return;
+            }
+            const prompt = `S obzirom na vještinu '${skill}', koje su 2-3 srodne vještine ili uloge koje volonter sa ovom vještinom može takođe obavljati, relevantno za humanitarni rad (kao što je Crveni krst)? Navedite sažete bullet poene na srpskom jeziku.`;
+            generateGeminiContent(
+                prompt,
+                document.getElementById('skillSuggestionsOutput'),
+                document.getElementById('skillLoading')
+            );
+        });
+
+        document.getElementById('generateEngagementTips').addEventListener('click', () => {
+            const prompt = `Generišite 3 sažeta i praktična savjeta za poboljšanje angažmana volontera u humanitarnoj organizaciji kao što je Crveni krst, uzimajući u obzir njihove uloge koje često uključuju odgovor na krize i podršku zajednici. Usredsredite se na praktične, lako primjenjive ideje. Navedite ih u bullet poenima.`;
+            generateGeminiContent(
+                prompt,
+                document.getElementById('engagementTipsOutput'),
+                document.getElementById('engagementLoading')
+            );
+        });
+    </script>
+    <!-- Potvrda: Mermaid JS i SVG nisu korišteni u ovom dokumentu. -->
+</body>
+</html>
